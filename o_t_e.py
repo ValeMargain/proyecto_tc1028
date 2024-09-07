@@ -2,10 +2,6 @@
 con el funcionamiento del programa es decir, determinar si inresaremos al 
 while o saltaremos directamente al for. """
 
-print("Tienes tareas pendientes? 'Si' 'No' ")
-#Esta variable recibe la respuesta del usuario:
-tarea= input() 
-
 
 
 
@@ -44,24 +40,26 @@ def ingresar_tareas(tarea):
 #Fin del while que permite ingresar las tareas en el arreglo de tareas
 
 #Aqui se creo una funcion para mostar las tareas pendientes. 
-def mostrar_tareas(arreglo_tareas):
-    print("Tus tareas para hoy son: ")
+def mostrar_tareas(tareitas):
+
     """Se utiliza un ciclo for que se encarga de imprimir los elementos de
     nuestro arreglo el cual contiene las tareas; usamos j como variable de 
     control y definimos que el ciclo recorrera hasta el limite de nuestra lista
     sin embargo, dentro del for tenemos un if que revisa si lo que esta en j es 
     diferente de None y en caso de que si lo imprime."""
-    for j in arreglo_tareas: 
+    for j in tareitas: 
         if j != None: #!= significa que si j es diferente a None se ejecutara el print
             print (j)
+        
 
 # Dentro de esta funcion se eliminaran las tareas que el usuario decida (aun le faltan detalles)
 def eliminar_tarea(arreglo_tarea, tarea_eliminar):
     j = 0 
     for j in arreglo_tareas: 
         if j == tarea_eliminar:
-            arreglo_tarea[j] = None
-            return arreglo_tareas
+            arreglo_tarea[j] = " "
+           # return arreglo_tareas
+        else: return "No se pudo eliminar la tarea"
       
     
 
@@ -73,7 +71,23 @@ el proyecto"""
 
 """Se manda a llamar a una funcion dentro de otra, primero el registro y luego 
 la lista de las tareas guardadas. """ 
-mostrar_tareas(ingresar_tareas(tarea))
+respuesta = 'Si'
+while (respuesta == "Si"):
+    op = int(input("Ingresa la opcion correspondiente para el menu: "))
+    if op==1: 
+        print("Tienes tareas pendientes? 'Si' 'No' ")
+        #Esta variable recibe la respuesta del usuario:
+        tarea = input() 
+        tareitas = ingresar_tareas(tarea)
+       
+    elif op==2: 
+        print("Las tareas son:")
+        mostrar_tareas(tareitas)
 
-
+    if op==3:
+        #Este metodo aun no funciona
+        print("Que tareita deseas eliminar: ")
+        tarea_eli = input()
+        eliminar_tarea(tareitas, tarea_eli)
+    respuesta = input("Deseas continuar dentro del programa: ")
 
