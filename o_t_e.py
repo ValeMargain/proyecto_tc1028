@@ -2,15 +2,16 @@
 con el funcionamiento del programa es decir, determinar si inresaremos al 
 while o saltaremos directamente al for. """
 
-
-
-
+#Ya se muestra el menu :)
+print("Menu:")
+print("1. Ingresar tareas")
+print("2. Mostrar tareas")
+print("3. Eliminar tareas")
 """Se declara la lista que va a guardar las tareas pendientes
 (se definen todos sus elementos como None y solo tiene 100 elementos)"""
 arreglo_tareas = [None] * 100   
 """Utilizamos el operador aritmetico de multiplicación para declarar el 
 arreglo con 100 elementos y todos en None"""
-
 
 """Comenzamos a separar todo por funciones, dentro de la funcion ingresar_tareas 
 haremos el registro de todas las tareas que el usuario desee y regresaremos 
@@ -20,7 +21,6 @@ def ingresar_tareas(tarea):
     """A continuacion se agrega un bucle que solo terminará en caso de
     que el usuario ingrese que 'No' tiene tareas pendientes"""
     while(tarea=="Si"):
-       
         print("Ingresa el nombre de tu tarea")
         """Esta variable guarda temporalmente el nombre de 
         la tarea:"""
@@ -50,18 +50,18 @@ def mostrar_tareas(tareitas):
     for j in tareitas: 
         if j != None: #!= significa que si j es diferente a None se ejecutara el print
             print (j)
+        else: return("No hay tareas registradas por favor ingresa tareas")
         
 
 # Dentro de esta funcion se eliminaran las tareas que el usuario decida (aun le faltan detalles)
 def eliminar_tarea(arreglo_tarea, tarea_eliminar):
     j = 0 
-    for j in arreglo_tareas: 
+    for j in arreglo_tarea: 
         if j == tarea_eliminar:
-            arreglo_tarea[j] = " "
-           # return arreglo_tareas
+            j = ""
+            return arreglo_tarea
         else: return "No se pudo eliminar la tarea"
       
-    
 
 """Mas adelante se planea utilizar un proceso similar pero con nuestro 
 arreglo convertido en matriz en donde agregaremos la fecha de entrega y
@@ -69,9 +69,11 @@ una breve descripcion de la tarea. Tambien se podra eliminar y modificar
 elementos asi mismo cada proceso ira en una funcion con el fin de modular
 el proyecto"""
 
+respuesta = 'Si'
+
 """Se manda a llamar a una funcion dentro de otra, primero el registro y luego 
 la lista de las tareas guardadas. """ 
-respuesta = 'Si'
+
 while (respuesta == "Si"):
     op = int(input("Ingresa la opcion correspondiente para el menu: "))
     if op==1: 
@@ -81,8 +83,22 @@ while (respuesta == "Si"):
         tareitas = ingresar_tareas(tarea)
        
     elif op==2: 
-        print("Las tareas son:")
-        mostrar_tareas(tareitas)
+        """En programacion, los try y catch/except se utilizan para
+        capturar excepciones, aqui practicamente fue necesario
+        porque el metodo de mostrar depende del metodo registrar
+        y si tratabamos de mostrar tareas registradas sin que hubiera ninguna
+        el programa marca error ya que la lista tareitas no se habia creado.
+        
+        La diferencia del if y el try es que el try se encarga de capturar
+        errores mientras que el if solo se utiliza para la logica de programacion 
+        asi como para condiciones. """
+        try:
+            tareitas
+        except NameError:
+             print("No hay tareas registradas, por favor dirigete a la opción 1")
+        else:
+            print("Las tareas son:")
+            mostrar_tareas(tareitas)
 
     if op==3:
         #Este metodo aun no funciona
