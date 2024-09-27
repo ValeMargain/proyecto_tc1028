@@ -53,15 +53,19 @@ def mostrar_tareas(tareitas):
         else: return("No hay tareas registradas por favor ingresa tareas")
         
 
-# Dentro de esta funcion se eliminaran las tareas que el usuario decida (aun le faltan detalles)
+""" Dentro de esta funcion se eliminaran las tareas que el usuario decida utilizando una variable
+contador para ingresar al indice y comparando lo que hay en dicha posicion del arreglo con nuestra
+variable tarea_eliminar que almacena el nombre de la tarea que se desea eliminar. Al final del
+metodo es se regresa el arreglo y dentro del if del menu mandamos a 
+llamar al segundo metodo para imprimir la lista."""
 def eliminar_tarea(arreglo_tarea, tarea_eliminar):
     j = 0 
-    for j in arreglo_tarea: 
+    count = 0
+    for j in arreglo_tarea:
         if j == tarea_eliminar:
-            j = ""
+            del arreglo_tarea[count]
             return arreglo_tarea
-        else: return "No se pudo eliminar la tarea"
-      
+        count +=1
 
 """Mas adelante se planea utilizar un proceso similar pero con nuestro 
 arreglo convertido en matriz en donde agregaremos la fecha de entrega y
@@ -81,7 +85,7 @@ while (respuesta == "Si"):
         #Esta variable recibe la respuesta del usuario:
         tarea = input() 
         tareitas = ingresar_tareas(tarea)
-       
+        
     elif op==2: 
         """En programacion, los try y catch/except se utilizan para
         capturar excepciones, aqui practicamente fue necesario
@@ -104,6 +108,13 @@ while (respuesta == "Si"):
         #Este metodo aun no funciona
         print("Que tareita deseas eliminar: ")
         tarea_eli = input()
-        eliminar_tarea(tareitas, tarea_eli)
+        try:
+            tareitas
+        except NameError:
+             print("No hay tareas registradas, por favor dirigete a la opción 1")
+        else:
+            tareitas = eliminar_tarea(tareitas, tarea_eli)
+            print("Tus ahora tareas son: ")
+            mostrar_tareas(tareitas)
+        
     respuesta = input("Deseas continuar dentro del programa: ")
-
