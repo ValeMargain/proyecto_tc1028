@@ -1,3 +1,8 @@
+#Sub competencia: Operadores aritmeticos de manera eficaz
+#Error original: No habia hecho uso de operaciones aritmeticas
+#Cambio realizado: Se creo la funcion calcular_promedios que corresponde a la opcion 4 del menu
+#Lineas de codigo donde se ve la corrección: 104-132
+
 """Se consulta con el usuario si tiene tareas pendientes para comenzar
 con el funcionamiento del programa es decir, determinar si ingresaremos al 
 while o saltaremos directamente al for. """
@@ -7,16 +12,16 @@ print("Menu:")
 print("1. Ingresar tareas")
 print("2. Mostrar tareas")
 print("3. Eliminar tareas")
+print("4. Calcular promedio")
 """Se declaran dos listas, una que va a guardar las tareas pendientes y la segunda que
-guardara la fecha de inicio y fin de cada tarea (se definen como vacias al inicio)"""
+guardara la fecha de inicio y fin de cada tarea (se definen como vacias)"""
 arreglo_tareas=[]
 arreglo_fechas=[]
 
-
-"""Comenzamos a separar todo por funciones, dentro de la funcion ingresar_tareas 
-haremos el registro de todas las tareas que el usuario desee y regresaremos 
-el arreglo final que corresponde al arreglo con todas las tareas y fechas ingresadas."""
+"""Comenzamos a separar todo por funciones"""
 def ingresar_tareas(tarea): 
+    """Esta funcion se encarga de registrar todas las tareas que el usuario desee y regresaremos 
+    el arreglo final que corresponde al arreglo con todas las tareas y fechas ingresadas."""
     i = 0 
     """A continuacion se agrega un bucle que solo terminará en caso de
     que el usuario ingrese que 'No' tiene tareas pendientes"""
@@ -27,33 +32,25 @@ def ingresar_tareas(tarea):
         nom_tarea = input() 
         #Se validara que la tarea no exista en el arreglo, solo que aun no funciona
         if(nom_tarea.upper() not in arreglo_tareas):
-            arreglo_tareas.append(nom_tarea)
+            arreglo_tareas.append(nom_tarea.upper())
             print("Ingresa la fecha de inicio")
             fecha_ini_tarea = input() 
             print("Ingresa la fecha de fin")
             fecha_fin_tarea = input() 
             #Se valida que la fecha de inicio sea menor o igual a la fecha final
-            if(fecha_ini_tarea<=fecha_fin_tarea):
-                print("Si se guardo")
-                arreglo_fechas.append(fecha_ini_tarea)
-                arreglo_fechas.append(fecha_fin_tarea)
-            else:
-                """En caso de que no se cumpla la condicion anterior ingresaremos al ciclo
-                while que se repetira hasta que se ingresen correctamente las fechas. 
-                """
-                while fecha_ini_tarea>fecha_fin_tarea:
-                    print("No se guardo, intenta con otra fecha:")
-                    print("Ingresa la fecha de inicio")
-                    fecha_ini_tarea = input() 
-                    print("Ingresa la fecha de fin")
-                    fecha_fin_tarea = input() 
-                print("Fechas correctas, se fuardo :)")
-                arreglo_fechas.append(fecha_ini_tarea)
-                arreglo_fechas.append(fecha_fin_tarea)
+            while fecha_fin_tarea<fecha_ini_tarea:
+                print("No se guardo, intenta con otra fecha:")
+                print("Ingresa la fecha de inicio")
+                fecha_ini_tarea = input() 
+                print("Ingresa la fecha de fin")
+                fecha_fin_tarea = input() 
+            print("Si se guardo")
+            arreglo_fechas.append(fecha_ini_tarea)
+            arreglo_fechas.append(fecha_fin_tarea)
         else:
             print("La tarea ya existe")
         """Usamos el operador de suma para que en cada vuelta del while
-        la variable i aumente 1 y se vayan agegando las tareas al indice
+        la variable i aumente 1 y se vayan agregando las tareas al indice
         correspondiente del arreglo"""
         #Variable de control para nuestro while:
         i = i + 1 
@@ -86,7 +83,8 @@ def mostrar_tareas(tareitas):
     else: return("No hay tareas registradas por favor ingresa tareas")
         
 
-""" Dentro de esta funcion se eliminaran las tareas que el usuario decida utilizando un 
+def eliminar_tarea(arreglo_tarea, tarea_eliminar):
+    """ Dentro de esta funcion se eliminaran las tareas que el usuario decida utilizando un 
 condicional if para validar si lo que registro el usuario se encuentra dentro de nuestro 
 arreglo, pero unicamente en la poscion 0 porque es la que corresponde al nombre de la tarea
 En caso de que la condicion se cumpla, la guardamos dentro de una variable llamada pos y 
@@ -95,7 +93,6 @@ en base a la posicion indicada. Una vez eliminado el nombre de la tarea, elimina
 las fechas que le corresponden mediante una multiplicacion para determinar la posicion o indice
 inicial dentro de la posicion [1] de nuestro arreglo y tenemos la posicion obtenida + 1 
 y multiplicado por dos para obtener la posicion final.  """
-def eliminar_tarea(arreglo_tarea, tarea_eliminar):
     if tarea_eliminar in arreglo_tarea[0]:
         pos = arreglo_tarea[0].index(tarea_eliminar)
         del tareitas[0][pos]  
@@ -105,16 +102,38 @@ def eliminar_tarea(arreglo_tarea, tarea_eliminar):
     else:
         print("No se encontro la tarea")
         return tareitas
-"""Mas adelante se planea utilizar un proceso similar pero con nuestro 
-arreglo convertido en matriz en donde agregaremos la fecha de entrega y
-una breve descripcion de la tarea. Tambien se podra eliminar y modificar
-elementos asi mismo cada proceso ira en una funcion con el fin de modular
-el proyecto"""
+
+def calcular_promedios(criterios):
+    i=0
+    arre_nom_cri=[]
+    prom=101
+    arre= []
+    while prom>100:
+        while i <criterios:
+            nom_cri=input("Ingresa el nombre del criterio: ")
+            arre_nom_cri.append(nom_cri)
+            val=int(input("Ingresa el valor del criterio (0-100): "))
+            while val >100 or val <0:
+                print("Escribe de nuevo el valor: ")
+                val=int(input())
+            acts = int(input("Cuantas actividades tiene tu criterio: "))
+            j=0
+            suma_cal=0
+            while j < acts:
+                cal=float(input("Ingresa la calificacion de tu actividad: (0-100)"))
+                while cal >100 or val <0:
+                    print("Escribe de nuevo el valor: (0-100) ")
+                    cal=int(input())
+                suma_cal+=cal
+                print(suma_cal)
+                j=j+1
+            prom+=((suma_cal/acts)*val)/10
+            i=i+1
+            arre.append(arre_nom_cri)
+        prom = prom-101
+    return arre, prom
 
 respuesta = 'SI'
-
-"""Se manda a llamar a una funcion dentro de otra, primero el registro y luego 
-la lista de las tareas guardadas. """ 
 
 while (respuesta == "SI"):
     op = int(input("Ingresa la opcion correspondiente para el menu: "))
@@ -124,7 +143,7 @@ while (respuesta == "SI"):
         tarea = input().upper() 
         tareitas = ingresar_tareas(tarea)
         
-    elif op==2: 
+    if op==2: 
         """En programacion, los try y catch/except se utilizan para
         capturar excepciones, aqui practicamente fue necesario
         porque el metodo de mostrar depende del metodo registrar
@@ -154,5 +173,13 @@ while (respuesta == "SI"):
             tareitas = eliminar_tarea(tareitas, tarea_eli)
             print("Tus ahora tareas son: ")
             mostrar_tareas(tareitas)
-        
+    if op==4:
+        criterios=int(input("Ingresa la cantidad de criterios que tienes: "))
+        print("A continuacion, se le solicitaran los criterios en caso de que el valor total"+
+              "de los criterios sea mayor a 100, se volvera a pedir toda la información")
+        arre_cri= [calcular_promedios(criterios)]
+        arre_nom=arre_cri[0]
+        prom=arre_cri[0][1]
+        print("Tus criterios de evaluacion son: ", arre_nom)
+        print("Tu promedio es: ",prom)
     respuesta = input("Deseas continuar dentro del programa: ").upper()
