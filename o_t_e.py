@@ -2,7 +2,7 @@
     Error original: No habia hecho uso de operaciones aritmeticas
     Cambio realizado: Se creo la funcion calcular_promedios que corresponde
     a la opcion 4 del menu
-    Lineas de codigo donde se ve la corrección: 162-203"""
+    Lineas de codigo donde se ve la corrección: 164-215"""
      
 """Proyecto Python
     Organizador de tareas escolares.
@@ -93,6 +93,8 @@ def ingresar_tareas(tarea):
     ayuda de las funciones auxiliares se valida la fecha. 
     devuelve: un arreglo con los nombres y fechas de las tareas
     """
+    arreglo_fechas=[]
+    arreglo_tareas=[]
     i = 0 
     while(tarea=="SI"):
         print("Ingresa el nombre de tu tarea")
@@ -135,7 +137,7 @@ def mostrar_tareas(tareitas):
         print([tareitas[0][i]])
         if i < len(tareitas[1]) // len(tareitas[0]):  
             print(tareitas[1][i * 2:(i + 1) * 2]) 
-    else: return("No hay tareas registradas por favor ingresa tareas")
+        else: return("No hay tareas registradas por favor ingresa tareas")
         
 def eliminar_tarea(arreglo_tarea, tarea_eliminar):
     """ 
@@ -172,18 +174,28 @@ def calcular_promedios(criterios):
     devuelve: el arreglo arre_noms y prom que es float.
     """
     i=0
+    res = 0
     arre_nom_cri=[]
     prom=0
+    suma_val=0
     arre_noms= []
     while i <criterios:
         nom_cri=input("Ingresa el nombre del criterio: ")
         arre_nom_cri.append(nom_cri)
-        val=int(input("Ingresa el valor del criterio (0-100): "))
-        if val == 100:
-            i = criterios
-        while val >100 or val <0:
-            print("Escribe de nuevo el valor: ")
-            val=int(input())
+        bol= True
+        while bol == True:
+            val = int(input("Ingresa el valor del criterio (0-100): "))
+            if val == 100:
+                i = criterios
+                bol = False
+            elif val < 0 or val > 100:
+                print("Valor fuera de rango. Escribe de nuevo el valor: ")
+            elif suma_val + val > 100  :
+                print("La suma de los valores no puede ser mayor a 100,"
+                       +"intenta de nuevo.")
+            else:
+                suma_val += val
+                bol = False
         acts = int(input("Cuantas actividades tiene tu criterio: "))
         j=0
         suma_cal=0
@@ -193,19 +205,16 @@ def calcular_promedios(criterios):
                 print("Escribe de nuevo el valor: (0-100) ")
                 cal=int(input())
             suma_cal+=cal
-            print(suma_cal)
             j=j+1
-        print(prom)
-        prom+=((suma_cal/acts)*val)/100
+        res=suma_cal/acts
+        res = res*val
+        res= res/100
+        prom+=res
         i=i+1
         arre_noms.append(arre_nom_cri)
-    print(prom)
     return arre_noms, prom
 
 """------------Parte principal del programa-----------"""
-#Arreglos auxiliares
-arreglo_tareas=[]
-arreglo_fechas=[]
 
 #Inicializa la variable respuesta
 respuesta = 'SI'
@@ -246,9 +255,9 @@ while (respuesta == "SI"):
 
     if op==4:
         criterios=int(input("Ingresa la cantidad de criterios que tienes: "))
-        print("A continuacion, se le solicitaran los criterios en caso de que"
-        + "el valor total de los criterios sea mayor a 100,"+
-        "se volvera a pedir toda la información")
+        print("A continuacion, se le solicitaran los criterios"+
+            "en caso de que el valor total de los criterios sea"+
+             "mayor a 100,se volvera a pedir toda la información")
         arre_cri= [calcular_promedios(criterios)]
         arre_nom=arre_cri[0]
         prom=arre_cri[0][1]
